@@ -33,9 +33,8 @@ exports.getBoardById = function(id, callback){
 
 exports.saveBoardSettings = function(board, callback){
 
-	client.subscribe('tag');
+	//client.subscribe('tag');
 	callback();
-
 
 	//callback(null, board);
 
