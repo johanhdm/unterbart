@@ -7,9 +7,12 @@ exports.addPostToBoards = function(post, tag, callback){
 
 	getBoardsWithTag(tag, function(err, boards){
 		for (var i = boards.length - 1; i >= 0; i--) {
-			client.zadd( boards[i], 1, post); 
+			var set = [ boards[i], 1, post ];
+
+			client.zadd( set, function(err, response){
+				callback();
+			}); 
 		};
-		callback();
 	});
 
 };

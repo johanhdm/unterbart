@@ -4,6 +4,8 @@ var restify = require('restify')
 
 function addPost(req, res, next) {
 
+	console.log(req.body);
+
 	dataclient.addPostToBoards(req.params.post, req.params.tag, function(err, data){
 		console.log('respons done');
 		res.send('ok');
@@ -27,9 +29,12 @@ var server = restify.createServer({
 */
 });
 
+
+
 //routes
-server.get('/tags/:tag/:post', addPost);
-server.get('/board/:tag/:board', addBoardToTag);
+server.post('/post/:media/:tag', addPost);
+
+server.post('/board/:tag/:board', addBoardToTag);
 
 
 //actually API stuff
