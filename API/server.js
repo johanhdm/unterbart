@@ -3,40 +3,33 @@ var restify = require('restify')
 	, dataclient = require('../DataStore/dataprovider.js');
 
 
-function respond(req, res, next) {
-	//resolve hostname against registered boardname
-	console.log('hostname: ', os.hostname());	
-	 
-	//return next(new restify.UnauthorizedError("The board id is not valid for " + os.hostname() ));
-	//if  hash(hostname + salt) == req.params.id
-	//go go go 
-	//get json from REDIS datastore
-	dataclient.getBoardById(req.params.id, function(err, response){
-		res.send(response);
-	});
-	//else access denied
-
-
-}
-
-dataclient.saveBoardSettings(null, function(){
-	console.log('ok?');
-
-});
-
-var server = restify.createServer({
-/*	formatters : {
-		'application/jsonp' : function formatJsonp(req, res, body){
-			console.log('jsonp')
-		}
-
-	}
-*/
-});
+var server = restify.createServer({});
 
 //routes
-server.get('/board/:id', respond);
-server.head('/board/:id', respond);
+server.get('/posts/:board', getPostsByBoard);
+server.post('/board/:board/:media/:tag', addTagToBoard)
+
+
+function getPostsByBoard(req, res, next){
+	dataclient.getPostsForBoard(req.params.board, req.params.offset, req.params.length, function(err, data){
+		res.send(data);
+	});
+};
+
+function addTagToBoard(req, res, next){
+	//validate user
+	dataclient.addBoardToTag(req.params.board, req.params.tag, req.params.media, function(err, data){
+		if (err){
+			return next(new restify.InternalServerError(err));
+		}
+		else{
+			res.send(data);
+		}
+
+	});
+
+};
+
 
 
 server.listen(3000, function() {

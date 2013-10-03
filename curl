@@ -1,0 +1,7 @@
+curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d ' {"user":{"first_name":"firstname","last_name":"lastname","email":"email@email.com","password":"app123","password_confirmation":"app123"}}'  http://localhost:4000/
+
+curl -v -H "Accept: application/json" -X POST http://localhost:4000/subscribe/twitter/tag/yolo
+
+curl -v -H "Accept: application/json" -X POST http://localhost:3000/board/test/twitter/iphone
+
+curl -v -H "Accept: application/json" http://localhost:3000/board/test
