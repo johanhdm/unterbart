@@ -1,6 +1,6 @@
 var restify = require('restify')
 	, os = require('os')
-	, dataclient = require('../DataStore/dataprovider.js');
+	, dataclient = require('./dataProvider.js');
 
 
 var server = restify.createServer({});
@@ -11,7 +11,7 @@ server.post('/board/:board/:media/:tag', addTagToBoard)
 
 
 function getPostsByBoard(req, res, next){
-	dataclient.getPostsForBoard(req.params.board, req.params.offset, req.params.length, function(err, data){
+	dataclient.getPostsForBoard(req.params.board, req.query.offset, req.query.length, function(err, data){
 		res.send(data);
 	});
 };
@@ -25,7 +25,6 @@ function addTagToBoard(req, res, next){
 		else{
 			res.send(data);
 		}
-
 	});
 
 };

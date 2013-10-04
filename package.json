@@ -13,6 +13,6 @@
     "redis" : "*",
     "hiredis" : "*",
     "restify" : "2.*",
-    "twitter" : "0.2.*"
+    "twitter" : "0.2.3"
   }
 }

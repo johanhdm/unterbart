@@ -1,0 +1,5 @@
+curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"url":"http://twitter.com/asdfasdf", "message": "Here be tweet", "image" : "http://example.com/image.jpg"}'  http://localhost:4000/post/twitter/test
+
+curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POST  http://localhost:4000/board/test/my-board
+
+curl  http://localhost:4000/my-board
