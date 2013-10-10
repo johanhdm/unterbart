@@ -1,6 +1,7 @@
 var restify = require('restify')
 	, os = require('os')
-	, dataclient = require('./dataProvider.js');
+	, dataclient = require('./dataProvider.js')
+	, querystring = require('querystring');
 
 
 var server = restify.createServer({});
@@ -8,12 +9,29 @@ var server = restify.createServer({});
 //routes
 server.get('/posts/:board', getPostsByBoard);
 server.post('/board/:board/:media/:tag', addTagToBoard)
+server.del('/board/:board/:media/:tag', deleteTagFromBoard)
 
 
 function getPostsByBoard(req, res, next){
-	dataclient.getPostsForBoard(req.params.board, req.query.offset, req.query.length, function(err, data){
+
+	var query = querystring.parse(req.query());
+
+	dataclient.getPostsForBoard(req.params.board, query.offset, query.length, function(err, data){
 		res.send(data);
 	});
+};
+
+function deleteTagFromBoard(req, res, next){
+	//validate user
+	dataclient.deleteTagFromBoard(req.params.board, req.params.tag, req.params.media, function(err, data){
+		if (err){
+			return next(new restify.InternalServerError(err));
+		}
+		else{
+			res.send(data);
+		}
+	});
+
 };
 
 function addTagToBoard(req, res, next){
@@ -28,7 +46,6 @@ function addTagToBoard(req, res, next){
 	});
 
 };
-
 
 
 server.listen(3000, function() {

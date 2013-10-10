@@ -1,1 +1,1 @@
-web: node Endpoints/server.js
+web: node $PROCFILE

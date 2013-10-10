@@ -4,9 +4,12 @@ var redis = require('redis')
 
 
 exports.addBoardToTag = function(boardId, tag, media, callback){
-	client.sadd('#' + tag, boardId);
+	client.sadd(media + '#' + tag, boardId);
 	console.log('addBoardToTag');
-	addSubscription(media, tag, callback);
+	//publish to channel so that we can push 
+
+	client.publish('subscriptions:add:'+ media, '#' + tag);
+
 };
 
 exports.getPostsForBoard = function(boardId, offset, length, callback){
@@ -24,31 +27,18 @@ exports.getPostsForBoard = function(boardId, offset, length, callback){
 	});
 };
 
-function addSubscription(media, tag, callback){
-	console.log('addSubscription');
+exports.deleteTagFromBoard = function(boardId, tag, media, callback){
 
-	tagHasSubscription(media, tag, function(number){
+	var key = media + '#' + tag;
+	console.log("key: ", key)
+	client.srem(key, boardId, function(err, value){
+		client.smembers(key, function(err, members){
+			console.log("members: ", members, members.length);
 
-		console.log("SUBSCRIPTIONS: ", number);
-		if (number == 0){
-			client.sadd('subscriptions:' + media, tag, function(err, data){
-				console.log("SUBSCRIPTION ADDED: ", media, ':', tag);
-				
-				client.publish('subscriptions:' + media, tag);
-				callback();
+			if (members.length == 0){
+				client.publish('subscriptions:remove:' + media, '#' + tag);
+			}
+		});
 
-
-			});			
-		}
-	})
-
-};
-
-function tagHasSubscription (media, tag, callback){
-	console.log('tagHasSubscription');
-
-	client.sismember('subscriptions:' + media, tag, function(err, data){
-		console.log('sismember');
-		callback(data);
 	});
-};
+}
