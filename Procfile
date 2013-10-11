@@ -1,1 +1,2 @@
-$START_COMMAND
+web: $START_WEB
+worker: $START_WORKER
