@@ -1,25 +1,6 @@
-var redis = require('redis')
-	, client
-	, subscriptionClient
+var client = require('../../common/redisClient').createClient()
+	, subscriptionClient = require('../../common/redisClient').createClient()
 	, twitter = require('twitter');
-
-
-if (process.env.REDISCLOUD_URL){
-	console.log("CLOUD!");
-	var redisUrl = require("url").parse(process.env.REDISCLOUD_URL);
-	client = require("redis").createClient(redisUrl.port, redisUrl.hostname);
-	client.auth(redisUrl.auth.split(":")[1]);
-	
-	subscriptionClient = require("redis").createClient(redisUrl.port, redisUrl.hostname);
-	subscriptionClient.auth(redisUrl.auth.split(":")[1]);
-
-}
-else{
-	subscriptionClient = redis.createClient()
-	client = redis.createClient();
-
-}
-
 
 var theStream; 
 

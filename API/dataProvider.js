@@ -1,18 +1,6 @@
-var redis = require('redis')
-	, client
+var client = require('../common/redisClient').createClient()
 	, maxPostsPerBoard = 100;
 
-if (process.env.REDISCLOUD_URL){
-	console.log("CLOUD!");
-	var redisUrl = require("url").parse(process.env.REDISCLOUD_URL);
-	client = require("redis").createClient(redisUrl.port, redisUrl.hostname);
-	client.auth(redisUrl.auth.split(":")[1]);
-
-}
-else{
-	client = redis.createClient();
-
-}
 
 exports.addBoardToTag = function(boardId, tag, media, callback){
 	client.sadd(media + '#' + tag, boardId);
