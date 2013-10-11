@@ -1,1 +1,1 @@
-$START_COMMAND
+web: node $PROCFILE
