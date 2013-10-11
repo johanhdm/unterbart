@@ -1,1 +1,1 @@
-web: node DataStore/server.js
+worker: node DataStore/server.js

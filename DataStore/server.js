@@ -1,6 +1,22 @@
 var redis = require('redis')
-	, twitterSubscribeClient = redis.createClient()
-	, readClient = redis.createClient();
+	, twitterSubscribeClient
+	, readClient;
+
+if (process.env.REDISCLOUD_URL){
+	console.log("CLOUD!");
+	var redisUrl = require("url").parse(process.env.REDISCLOUD_URL);
+	twitterSubscribeClient = require("redis").createClient(redisUrl.port, redisUrl.hostname);
+	twitterSubscribeClient.auth(redisUrl.auth.split(":")[1]);
+	
+	readClient = require("redis").createClient(redisUrl.port, redisUrl.hostname);
+	readClient.auth(redisUrl.auth.split(":")[1]);
+
+}
+else{
+	twitterSubscribeClient = redis.createClient()
+	readClient = redis.createClient();
+
+}
 
 var maxPostsPerBoard = 100;
 

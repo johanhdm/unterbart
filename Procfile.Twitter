@@ -1,1 +1,1 @@
-web: node Endpoints/Twitter/server.js
+worker: node Endpoints/Twitter/server.js
