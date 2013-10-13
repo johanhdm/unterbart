@@ -8,8 +8,8 @@ var server = restify.createServer({});
 
 //routes
 server.get('/posts/:board', getPostsByBoard);
-server.post('/board/:board/:media/:tag', addTagToBoard)
-server.del('/board/:board/:media/:tag', deleteTagFromBoard)
+server.post('/board/:board/:media/:tag', addTagToBoard);
+server.del('/board/:board/:media/:tag', deleteTagFromBoard);
 
 
 function getPostsByBoard(req, res, next){
@@ -18,6 +18,7 @@ function getPostsByBoard(req, res, next){
 
 	dataclient.getPostsForBoard(req.params.board, query.offset, query.length, function(err, data){
 		res.send(data);
+		return next();
 	});
 };
 
@@ -29,6 +30,7 @@ function deleteTagFromBoard(req, res, next){
 		}
 		else{
 			res.send(data);
+			return next();
 		}
 	});
 
@@ -42,6 +44,7 @@ function addTagToBoard(req, res, next){
 		}
 		else{
 			res.send(data);
+			return next();
 		}
 	});
 
