@@ -1,6 +1,7 @@
 var client = require('../../common/redisClient').createClient()
 	, subscriptionClient = require('../../common/redisClient').createClient()
-	, twitter = require('twitter');
+	, twitter = require('twitter')
+	, _ = require('underscore');
 
 var theStream; 
 
@@ -24,12 +25,38 @@ function startSubscriptionToTwitterTag(tags, callback){
 		stream.on('data', function(tweet) {
 
 			if (tweet && tweet.user){
+
+				//tweet.entities.media.type == "photo" ?  _.map(media, function(photo, key){ return { url : photo.media_url } }) : []
+
+				var postImages = tweet.entities.media ?  
+					_.map(tweet.entities.media, function(entity, key){ 
+						if (entity.type == 'photo') { 
+							return { url : entity.media_url } 
+						}
+						else return;  } )
+						: [];
+
+//				console.log(postImages);
+
 				var post = {
-					username : tweet.user.screen_name,
-					name : tweet.user.name,
+					user : {
+						name : tweet.user.name,
+						username : tweet.user.screen_name,
+						picture : tweet.user.profile_image_url
+					},
 					created : tweet.created_at,
 					text : tweet.text,
+					images : postImages,
+					tags : _.map(tweet.entities.hashtags, function(hashtag, key){ return hashtag.text }),
+//					link : data.link,
+					location : tweet.coordinates ? {
+						lng : tweet.coordinates.coordinates[0],
+						lat : tweet.coordinates.coordinates[1]
+					} : {},
+					media : 't'
 				};
+
+				console.log(post);
 
 				for (var i = tags.length - 1; i >= 0; i--) {
 					

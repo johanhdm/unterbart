@@ -34,15 +34,15 @@ server.get('/subscriptions/tags/:tag', function(req, res, next){
 	var query = querystring.parse(req.query());
 
 	console.log(query);
-	
+/*	
 	res.writeHead(200, {
 	  	'Content-Length': Buffer.byteLength(query['hub.challenge']),
   		'Content-Type': 'text/plain'
 	});	
 	res.write(query['hub.challenge']);
 	res.end();
-
-//	res.send(200, query);
+*/
+	res.send(200, query);
 
 	return next();
 });
@@ -54,20 +54,31 @@ server.post('/subscriptions/tags/:tag', function(req, res, next){
 		var update = req.body[i];
 
 		instagramClient.get('/v1/media/565879895808556847?access_token=10330001.1fb234f.798540347923465e81566f7eeaa912f9', function(err, req, res, data){
-			console.log(err);
-			console.log(data);
+			
 
 			data = data.data;
+
 			var post = {
-					username : data.user.username,
-					name : data.user.full_name,
+					user : {
+						name : data.user.username,
+						username : data.user.full_name,
+						picture : data.user.profile_picture
+					},
 					created : data.created_time,
 					text : data.caption.text,
-					images : data.images
+					images : [
+						{ url : data.images.standard_resolution.url}
+					],
+					tags : data.tags,
+					link : data.link,
+					location : !data.location ? {} : {
+						lng : data.location.longitude,
+						lat : data.location.latitude
+					},
+					media : 'i'
 				};
 
 			console.log(post);
-
 		});
 
 	};

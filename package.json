@@ -12,6 +12,7 @@
   "dependencies": {
     "redis" : "*",
     "restify" : "2.*",
-    "twitter" : "0.2.3"
+    "twitter" : "0.2.3",
+    "underscore" : "1.5.*"
   }
 }
