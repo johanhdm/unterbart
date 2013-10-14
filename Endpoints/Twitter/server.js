@@ -26,8 +26,6 @@ function startSubscriptionToTwitterTag(tags, callback){
 
 			if (tweet && tweet.user){
 
-				//tweet.entities.media.type == "photo" ?  _.map(media, function(photo, key){ return { url : photo.media_url } }) : []
-
 				var postImages = tweet.entities.media ?  
 					_.map(tweet.entities.media, function(entity, key){ 
 						if (entity.type == 'photo') { 
@@ -35,8 +33,6 @@ function startSubscriptionToTwitterTag(tags, callback){
 						}
 						else return;  } )
 						: [];
-
-//				console.log(postImages);
 
 				var post = {
 					user : {
@@ -55,8 +51,6 @@ function startSubscriptionToTwitterTag(tags, callback){
 					} : {},
 					media : 't'
 				};
-
-				console.log(post);
 
 				for (var i = tags.length - 1; i >= 0; i--) {
 					
