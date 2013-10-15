@@ -37,15 +37,13 @@ server.get('/subscriptions/tags/:tag', function(req, res, next){
 	var query = querystring.parse(req.query());
 
 	console.log(query);
-/*	
+	
 	res.writeHead(200, {
 	  	'Content-Length': Buffer.byteLength(query['hub.challenge']),
   		'Content-Type': 'text/plain'
 	});	
 	res.write(query['hub.challenge']);
 	res.end();
-*/
-	res.send(200, query['hub.challenge']);
 
 	return next();
 });
