@@ -54,6 +54,8 @@ server.post('/subscriptions/tags/:tag', function(req, res, next){
 	for (var i = req.body.length - 1; i >= 0; i--) {
 		
 		var update = req.body[i];
+		console.log(update);
+
 
 		instagramClient.get('/v1/media/' +  update.object_id + '?access_token=' + accessToken, function(err, req, res, data){
 			
