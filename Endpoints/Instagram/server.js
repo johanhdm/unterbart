@@ -45,7 +45,7 @@ server.get('/subscriptions/tags/:tag', function(req, res, next){
 	res.write(query['hub.challenge']);
 	res.end();
 */
-	res.send(200, query);
+	res.send(200, query['hub.challenge']);
 
 	return next();
 });
