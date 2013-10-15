@@ -4,7 +4,8 @@ var client = require('../../common/redisClient').createClient()
 	, querystring = require('querystring')
 	, instagramClient = restify.createJsonClient({
 		url : 'https://api.instagram.com'
-		});
+		})
+	, accessToken = '10330001.1fb234f.798540347923465e81566f7eeaa912f9';
 
 subscriptionClient.subscribe('subscriptions:add:instagram');
 subscriptionClient.subscribe('subscriptions:remove:instagram');
@@ -15,6 +16,8 @@ subscriptionClient.on('message', function(channel, tag){
 	if (channel == 'subscriptions:add:instagram'){
 		client.sadd('tags:instagram', tag);
 		console.log('subscribe to: ', tag);
+
+
 
 	}
 	if (channel == 'subscriptions:remove:instagram'){
@@ -49,11 +52,14 @@ server.get('/subscriptions/tags/:tag', function(req, res, next){
 
 //receive callbacks
 server.post('/subscriptions/tags/:tag', function(req, res, next){
+
+	res.send(200);
+
 	for (var i = req.body.length - 1; i >= 0; i--) {
 		
 		var update = req.body[i];
 
-		instagramClient.get('/v1/media/565879895808556847?access_token=10330001.1fb234f.798540347923465e81566f7eeaa912f9', function(err, req, res, data){
+		instagramClient.get('/v1/media/' +  update.object_id + '?access_token=' + accessToken, function(err, req, res, data){
 			
 
 			data = data.data;
@@ -83,7 +89,6 @@ server.post('/subscriptions/tags/:tag', function(req, res, next){
 
 	};
 
-	res.send(200);
 });
 
 
