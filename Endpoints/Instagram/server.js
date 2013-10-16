@@ -5,6 +5,10 @@ var client = require('../../common/redisClient').createClient()
 	, instagramClient = restify.createJsonClient({
 		url : 'https://api.instagram.com'
 		})
+    , instagram = {
+        id : 'fa3365c8208a4dc5b71bcc13ba8c594e',
+        secret : '7e00090a17cf43849d09a2aa1a739ae9'
+      } 
 	, accessToken = '10330001.1fb234f.798540347923465e81566f7eeaa912f9';
 
 subscriptionClient.subscribe('subscriptions:add:instagram');
@@ -55,7 +59,9 @@ server.post('/subscriptions/tags/:tag', function(req, res, next){
 		
 		var update = req.body[i];
 
-		instagramClient.get('/v1/media/' +  update.object_id + '?access_token=' + accessToken, function(err, req, res, data){
+
+		//https://api.instagram.com/v1/tags/selfie/media/recent
+		instagramClient.get('/v1/tags/' +  update.object_id + '/media/recent?client_id=' + instagram.id, function(err, req, res, data){
 			
 			console.log(err);
 			console.log(data);

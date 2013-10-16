@@ -9,6 +9,14 @@ var restify = require('restify')
     , accessToken = '10330001.1fb234f.798540347923465e81566f7eeaa912f9';
 
 
+/*
+
+curl -X DELETE https://api.instagram.com/v1/subscriptions?client_id=fa3365c8208a4dc5b71bcc13ba8c594e&client_secret=7e00090a17cf43849d09a2aa1a739ae9&object=all
+
+
+
+*/
+/*
     var b = {
       client_id : instagram.id,
       client_secret : instagram.secret,
@@ -24,7 +32,13 @@ var restify = require('restify')
       console.log(obj);
       
     });
+*/
 
+  client.del('https://api.instagram.com/v1/subscriptions?client_id=fa3365c8208a4dc5b71bcc13ba8c594e&client_secret=7e00090a17cf43849d09a2aa1a739ae9&object=all', function(err, req, res, data) {
+    console.log(err);
+    console.log('%d -> %j', res.statusCode, res.headers);
+    console.log('%s', data);
+  });
 
 /*	
 
