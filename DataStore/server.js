@@ -1,13 +1,15 @@
-var twitterSubscribeClient = require('../common/redisClient').createClient()
+var subscribeClient = require('../common/redisClient').createClient()
 	, readClient = require('../common/redisClient').createClient();
 
 var maxPostsPerBoard = 100;
 
-twitterSubscribeClient.subscribe('twitter');
+subscribeClient.subscribe('twitter');
+subscribeClient.subscribe('instagram');
 
-twitterSubscribeClient.on('message', function(channel, post){
+
+subscribeClient.on('message', function(channel, post){
 	//add to board
-	addPostToBoard(post, 'twitter', function(){
+	addPostToBoard(post, channel, function(){
 	});
 
 });

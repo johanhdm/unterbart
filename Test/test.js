@@ -16,7 +16,7 @@ curl -X DELETE https://api.instagram.com/v1/subscriptions?client_id=fa3365c8208a
 
 
 */
-/*
+
     var b = {
       client_id : instagram.id,
       client_secret : instagram.secret,
@@ -32,7 +32,8 @@ curl -X DELETE https://api.instagram.com/v1/subscriptions?client_id=fa3365c8208a
       console.log(obj);
       
     });
-*/
+
+/*
 
   client.del('https://api.instagram.com/v1/subscriptions?client_id=fa3365c8208a4dc5b71bcc13ba8c594e&client_secret=7e00090a17cf43849d09a2aa1a739ae9&object=all', function(err, req, res, data) {
     console.log(err);
