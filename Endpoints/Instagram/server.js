@@ -63,6 +63,8 @@ server.post('/subscriptions/tags/:tag', function(req, res, next){
 		//https://api.instagram.com/v1/tags/selfie/media/recent
 		instagramClient.get('/v1/tags/' +  update.object_id + '/media/recent?client_id=' + instagram.id, function(err, req, res, data){
 			
+			console.log(data);
+
 			data = data.data;
 
 			var post = {
