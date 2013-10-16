@@ -64,7 +64,7 @@ server.post('/subscriptions/tags/:tag', function(req, res, next){
 		instagramClient.get('/v1/tags/' +  update.object_id + '/media/recent?client_id=' + instagram.id, function(err, req, res, obj){
 
 			for (var i = obj.data.length - 1; i >= 0; i--) {
-				var data[i] = obj.data[i];
+				var data = obj.data[i];
 
 				var post = {
 						user : {
