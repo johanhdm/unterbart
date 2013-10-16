@@ -61,34 +61,37 @@ server.post('/subscriptions/tags/:tag', function(req, res, next){
 
 
 		//https://api.instagram.com/v1/tags/selfie/media/recent
-		instagramClient.get('/v1/tags/' +  update.object_id + '/media/recent?client_id=' + instagram.id, function(err, req, res, data){
-			
-			console.log(data);
+		instagramClient.get('/v1/tags/' +  update.object_id + '/media/recent?client_id=' + instagram.id, function(err, req, res, obj){
 
-			data = data.data;
+			for (var i = obj.data.length - 1; i >= 0; i--) {
+				var data[i] = obj.data[i];
 
-			var post = {
-					user : {
-						name : data.user.username,
-						username : data.user.full_name,
-						picture : data.user.profile_picture
-					},
-					created : data.created_time,
-					text : data.caption.text,
-					images : [
-						{ url : data.images.standard_resolution.url}
-					],
-					tags : data.tags,
-					link : data.link,
-					location : !data.location ? {} : {
-						lng : data.location.longitude,
-						lat : data.location.latitude
-					},
-					media : 'i'
-				};
-			client.publish('instagram', JSON.stringify(post));
+				var post = {
+						user : {
+							name : data.user.username,
+							username : data.user.full_name,
+							picture : data.user.profile_picture
+						},
+						created : data.created_time,
+						text : data.caption.text,
+						images : [
+							{ url : data.images.standard_resolution.url}
+						],
+						tags : data.tags,
+						link : data.link,
+						location : !data.location ? {} : {
+							lng : data.location.longitude,
+							lat : data.location.latitude
+						},
+						media : 'i'
+					};
+				client.publish('instagram', JSON.stringify(post));
 
-			console.log(post);
+				console.log(post);
+
+
+			};
+
 		});
 
 	};
