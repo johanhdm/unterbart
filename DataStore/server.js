@@ -17,10 +17,17 @@ subscribeClient.on('message', function(channel, post){
 function addPostToBoard(post, media, callback){
 	post = JSON.parse(post);
 
+	console.log('ADDPOSTTOBOARD: ', post.user.name, ' from ', media);
+
 	getBoardsWithTag(post.tag, media, function(err, boards){
+		console.log('GETBOARDSWITHTAG: ', post.user.name, ' from ', media);
+
 		var d = new Date().getTime();
 		for (var i = boards.length - 1; i >= 0; i--) {
 			var set = [ boards[i], -d, JSON.stringify(post) ];
+	
+			console.log('ADDED POST;', post.user.name, ' from ', media, ' to BOARD: ', boards[i]);
+
 
 			readClient.zadd( set, function(err, response){
 				if (err){
