@@ -8,8 +8,18 @@ curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POS
 curl -v -H "Accept: application/json" -H "Content-type: application/json" -X DELETE  http://localhost:4000/board/board-1/twitter/selfie
 
 
+
+=================================
+
+curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POST http://api.unterbart.com/board/board-1/instagram/yolo
+
+curl -v -H "Accept: application/json" -H "Content-type: application/json" -X DELETE  http://unterbart-api.herokuapp.com/board/board-1/twitter/selfie
+
+
 =================================
 
 git@heroku.com:unterbart-api.git
 
 git@heroku.com:unterbart-datastore.git 
+
+git@heroku.com:unterbart-twitter.git

@@ -22,8 +22,8 @@ curl -X DELETE https://api.instagram.com/v1/subscriptions?client_id=fa3365c8208a
       client_secret : instagram.secret,
       aspect : 'media',
       object : 'tag',
-      object_id : 'selfie',
-      callback_url : 'http://instagram.unterbart.com/subscriptions/tags/selfie'
+      object_id : 'yolo',
+      callback_url : 'http://instagram.unterbart.com/subscriptions/tags/yolo'
 
     };
 
