@@ -99,6 +99,8 @@ server.post('/subscriptions/tags/:tag', function(req, res, next){
 		//https://api.instagram.com/v1/tags/selfie/media/recent
 		instagramClient.get('/v1/tags/' +  update.object_id + '/media/recent?client_id=' + instagram.id, function(err, req, res, obj){
 
+			console.log('OBJ: ', obj);
+
 			for (var i = obj.data.length - 1; i >= 0; i--) {
 
 				var data = obj.data[i];
@@ -123,7 +125,7 @@ server.post('/subscriptions/tags/:tag', function(req, res, next){
 					};
 				client.publish('instagram', JSON.stringify(post));
 
-				console.log(post);
+				console.log('published!');
 
 
 			};
