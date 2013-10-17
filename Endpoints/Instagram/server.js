@@ -9,6 +9,9 @@ var client = require('../../common/redisClient').createClient()
         id : 'fa3365c8208a4dc5b71bcc13ba8c594e',
         secret : '7e00090a17cf43849d09a2aa1a739ae9'
       } 
+    , stringClient = restify.createStringClient({
+    	url : 'https://api.instagram.com'
+    })
 	, accessToken = '10330001.1fb234f.798540347923465e81566f7eeaa912f9';
 
 subscriptionClient.subscribe('subscriptions:add:instagram');
@@ -22,11 +25,41 @@ subscriptionClient.on('message', function(channel, tag){
 		console.log('subscribe to: ', tag);
 
 
+		//TODO : perform search, and add the last 100 posts
+
+
+		//post to instagram 
+		var subscription = {
+	      client_id : instagram.id,
+	      client_secret : instagram.secret,
+	      aspect : 'media',
+	      object : 'tag',
+	      object_id : tag,
+	      callback_url : 'http://instagram.unterbart.com/subscriptions/tags/' + tag
+	    };
+
+	    stringClient.post('/v1/subscriptions/', subscription, function(err, req, res, obj){
+
+	    	console.log('Posted subscription to Instagram API on tag:', tag);
+	    	if (err) console.log(err);
+	    	else console.log(obj);	      
+
+	    });
 
 	}
 	if (channel == 'subscriptions:remove:instagram'){
 		client.srem('tags:instagram', tag);
 		console.log('unsubscribe from: ', tag);
+
+		stringClient.del('/v1/subscriptions/', function(err, req, res, obj){
+
+	    	console.log('Deleted subscription to Instagram API on tag:', tag);
+	    	if (err) console.log(err);
+	    	else console.log(obj);	      
+
+	    });
+
+
 	
 	}
 	
@@ -55,10 +88,13 @@ server.get('/subscriptions/tags/:tag', function(req, res, next){
 //receive callbacks
 server.post('/subscriptions/tags/:tag', function(req, res, next){
 
+	console.log(req.body);
+
 	for (var i = req.body.length - 1; i >= 0; i--) {
 		
 		var update = req.body[i];
 
+		console.log(update);
 
 		//https://api.instagram.com/v1/tags/selfie/media/recent
 		instagramClient.get('/v1/tags/' +  update.object_id + '/media/recent?client_id=' + instagram.id, function(err, req, res, obj){
@@ -103,7 +139,7 @@ server.post('/subscriptions/tags/:tag', function(req, res, next){
 });
 
 
-server.listen(process.env.PORT || 3000, function() {
+server.listen(process.env.PORT || 5000, function() {
 	
 	console.log('%s listening at %s', server.name, server.url);
 

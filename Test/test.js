@@ -6,7 +6,8 @@ var restify = require('restify')
         id : 'fa3365c8208a4dc5b71bcc13ba8c594e',
         secret : '7e00090a17cf43849d09a2aa1a739ae9'
       } 
-    , accessToken = '10330001.1fb234f.798540347923465e81566f7eeaa912f9';
+    , accessToken = '10330001.1fb234f.798540347923465e81566f7eeaa912f9'
+    , json = restify.createJsonClient({ url : 'http://localhost:5000' });
 
 
 /*
@@ -27,11 +28,21 @@ curl -X DELETE https://api.instagram.com/v1/subscriptions?client_id=fa3365c8208a
 
     };
 
-    client.post('/v1/subscriptions/', b, function(err, req, res, obj){
+    var c = [{
+        "subscription_id": "2",
+        "object": "tag",
+        "object_id": "nofilter",
+        "changed_aspect": "media",
+        "time": 1297286541
+    }];
+
+    json.post('/subscriptions/tags/yolo', b, function(err, req, res, obj){
       console.log(err);
       console.log(obj);
       
     });
+
+
 
 /*
 
