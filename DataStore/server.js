@@ -20,7 +20,9 @@ function addPostToBoard(post, media, callback){
 	console.log('ADDPOSTTOBOARD: ', post.user.name, ' from ', media);
 
 	getBoardsWithTag(post.tag, media, function(err, boards){
-		console.log('GETBOARDSWITHTAG: ', post.user.name, ' from ', media);
+		console.log('GETBOARDSWITHTAG: ', post.tag, ' from ', media);
+
+		console.log(boards);
 
 		var d = new Date().getTime();
 		for (var i = boards.length - 1; i >= 0; i--) {
@@ -31,7 +33,7 @@ function addPostToBoard(post, media, callback){
 
 			readClient.zadd( set, function(err, response){
 				if (err){
-				console.log('ERROR:', err, ' POST: ', post.name);
+					console.log('ERROR:', err, ' POST: ', post.name);
 				}
 
 				//cleanup
@@ -47,6 +49,9 @@ function addPostToBoard(post, media, callback){
 
 
 function getBoardsWithTag(tag, media, callback){
+
+	console.log('getBoardsWithTag ', tag, ' media: ', media);
+	
 	readClient.smembers(media + tag, function(err, obj){
 		callback(err, obj);
 	});

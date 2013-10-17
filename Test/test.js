@@ -28,15 +28,14 @@ curl -X DELETE https://api.instagram.com/v1/subscriptions?client_id=fa3365c8208a
 
     };
 
-    var c = [{
-        "subscription_id": "2",
-        "object": "tag",
-        "object_id": "nofilter",
-        "changed_aspect": "media",
-        "time": 1297286541
-    }];
+    var c = [ { changed_aspect: 'media',
+                object: 'tag',
+                object_id: 'yolo',
+                time: 1381994884,
+                subscription_id: 3849270,
+                data: {} } ];
 
-    json.post('/subscriptions/tags/yolo', b, function(err, req, res, obj){
+    json.post('/subscriptions/tags/yolo', c, function(err, req, res, obj){
       console.log(err);
       console.log(obj);
       

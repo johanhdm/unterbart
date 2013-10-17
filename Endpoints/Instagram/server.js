@@ -88,22 +88,17 @@ server.get('/subscriptions/tags/:tag', function(req, res, next){
 //receive callbacks
 server.post('/subscriptions/tags/:tag', function(req, res, next){
 
-	console.log(req.body);
+	var requestTag = req.params.tag;
 
 	for (var i = req.body.length - 1; i >= 0; i--) {
 		
 		var update = req.body[i];
-
-		console.log(update);
-
-		//https://api.instagram.com/v1/tags/selfie/media/recent
 		instagramClient.get('/v1/tags/' +  update.object_id + '/media/recent?client_id=' + instagram.id, function(err, req, res, obj){
-
-			console.log('OBJ: ', obj);
 
 			for (var i = obj.data.length - 1; i >= 0; i--) {
 
 				var data = obj.data[i];
+
 				var post = {
 						user : {
 							name : data.user.username,
@@ -121,12 +116,10 @@ server.post('/subscriptions/tags/:tag', function(req, res, next){
 							lng : data.location.longitude,
 							lat : data.location.latitude
 						},
-						media : 'i'
+						media : 'i',
+						tag : '#' + requestTag
 					};
 				client.publish('instagram', JSON.stringify(post));
-
-				console.log('published!');
-
 
 			};
 
