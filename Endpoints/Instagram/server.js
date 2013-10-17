@@ -27,6 +27,7 @@ subscriptionClient.on('message', function(channel, tag){
 
 		//TODO : perform search, and add the last 100 posts
 
+		var strippedTag = tag.replace('#', '');
 
 		//post to instagram 
 		var subscription = {
@@ -34,13 +35,13 @@ subscriptionClient.on('message', function(channel, tag){
 	      client_secret : instagram.secret,
 	      aspect : 'media',
 	      object : 'tag',
-	      object_id : tag,
-	      callback_url : 'http://instagram.unterbart.com/subscriptions/tags/' + tag
+	      object_id : strippedTag,
+	      callback_url : 'http://instagram.unterbart.com/subscriptions/tags/' + strippedTag
 	    };
 
 	    stringClient.post('/v1/subscriptions/', subscription, function(err, req, res, obj){
 
-	    	console.log('Posted subscription to Instagram API on tag:', tag);
+	    	console.log('Posted subscription to Instagram API on tag:', strippedTag);
 	    	if (err) console.log(err);
 	    	else console.log(obj);	      
 
@@ -49,7 +50,7 @@ subscriptionClient.on('message', function(channel, tag){
 	}
 	if (channel == 'subscriptions:remove:instagram'){
 		client.srem('tags:instagram', tag);
-		console.log('unsubscribe from: ', tag);
+		console.log('unsubscribe from: ', strippedTag);
 
 		stringClient.del('/v1/subscriptions/', function(err, req, res, obj){
 
